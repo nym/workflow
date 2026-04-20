@@ -39,6 +39,7 @@ just fmt          # Format all files via treefmt
 ```
 
 Run `direnv allow` on first clone (loads `devenv` environment).
+Editor + MCP setup lives in [`VSCODE_SETUP.md`](VSCODE_SETUP.md).
 
 ---
 

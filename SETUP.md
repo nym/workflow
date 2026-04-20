@@ -24,6 +24,9 @@ devenv test                  # validates all tools present and required env vars
 
 Then open VSCode and accept the recommended-extensions prompt.
 
+For MCP servers, Claude Code plugins, and Playwright/Context7/etc. setup, see
+[`VSCODE_SETUP.md`](VSCODE_SETUP.md).
+
 ---
 
 ## Environment validation
