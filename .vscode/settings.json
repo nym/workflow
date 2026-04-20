@@ -1,0 +1,30 @@
+{
+  "editor.formatOnSave": true,
+  "editor.rulers": [100],
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "files.associations": {
+    "*.toml": "toml",
+    "*.nix": "nix",
+    ".env*": "dotenv"
+  },
+  "search.exclude": {
+    ".direnv/**": true,
+    ".devenv/**": true,
+    "result/**": true,
+    "result-*/**": true,
+    "__pycache__/**": true,
+    "*.egg-info/**": true,
+    "node_modules/**": true
+  },
+  "cSpell.words": [
+    "adversarial",
+    "anthropic",
+    "devenv",
+    "direnv",
+    "JSONL",
+    "orchestrator",
+    "SPARC",
+    "xhigh"
+  ]
+}

@@ -1,0 +1,70 @@
+# PREFERRED_STACK
+
+Technology contract. Agents read this **before** proposing any new dependency.
+Anything not listed requires a justification added here first (see `CODE_STANDARDS.md` §6).
+
+---
+
+## Environment
+
+- **Nix + devenv** — reproducible, identical in CI and local; no version drift
+- **direnv** — automatic environment activation on `cd`
+- Avoid: `pyenv`, `nvm`, `asdf`, `conda` — all violate reproducibility guarantees
+
+---
+
+## LLM / Agent roles
+
+| Role          | Model                           | Rationale                                              |
+|---------------|---------------------------------|--------------------------------------------------------|
+| Orchestrator  | `claude-opus-4-7`               | Extended thinking, multi-step workflows, planning      |
+| Implementer   | `claude-sonnet-4-6`             | Cost-efficient, strong at code                         |
+| Adversary     | `claude-sonnet-4-6` (separate invocation) | Same tier as implementer — intentional, fair match     |
+| Verifier      | `claude-haiku-4-5-20251001`     | Fast, cheap, deterministic checks                      |
+
+Opus 4.7 model ID: **`claude-opus-4-7`** (GA 2026-04-16). This is the current default
+for new projects.
+
+Why not 4.6 as orchestrator: 4.7 shows a ~14% improvement on multi-step workflows and
+~1/3 fewer tool errors than 4.6. Use 4.7 unless a specific reproducibility requirement
+pins an older model.
+
+---
+
+## API patterns (Anthropic SDK)
+
+- **Prompt caching** enabled on all governance-doc references in the system prompt
+- **Extended thinking** enabled for `stakes=high` tasks
+- **Streaming** for long implementer tasks (user visibility, early-cancel option)
+- **Log** model used + token counts + cache-hit flag to `log.json` for every call
+
+---
+
+## Package management
+
+- All runtime deps declared in `devenv.nix`
+- No `pip install` / `npm install` without lockfile update in the same commit
+- No `curl | bash` in setup scripts
+
+---
+
+## Avoid (with reason)
+
+| Pattern                                   | Reason                             |
+|-------------------------------------------|------------------------------------|
+| `requirements.txt` without pinned hashes  | Reproducibility; drift             |
+| Floating `npm` versions (`^`, `~`)        | Reproducibility; silent upgrades   |
+| Global tool installs (`brew`, `pipx -g`)  | Environment pollution              |
+| Non-Anthropic LLMs as primary             | Governance/audit trail consistency |
+| `claude-opus-4-6` for new projects        | 4.7 is a clear upgrade on agent workflows |
+| Mid-session model swaps without log entry | Untracked performance deltas       |
+
+---
+
+## Adding a new dependency
+
+1. Append a row to the relevant section above (name, version constraint, rationale)
+2. Update `devenv.nix` (or the project's equivalent) in the same commit
+3. Note the addition in the PR description
+4. Adversarial check should explicitly verify the dep is necessary (reject if a
+   standard-library or existing-dep solution would work)

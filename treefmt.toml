@@ -1,0 +1,9 @@
+[formatter.prettier]
+command = "prettier"
+options = ["--write"]
+includes = ["*.md", "*.json", "*.yaml", "*.yml"]
+excludes = [
+  "log.json",          # append-only audit trail; don't reformat
+  "pnpm-lock.yaml",
+  "package-lock.json",
+]

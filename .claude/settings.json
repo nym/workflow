@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(devenv test)",
+      "Bash(devenv shell:*)",
+      "Bash(direnv status)",
+      "Bash(direnv allow)",
+      "Bash(just)",
+      "Bash(just *)",
+      "Bash(jq *)",
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(gh api:*)",
+      "Bash(gh repo view:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh issue list:*)",
+      "Bash(treefmt)",
+      "Bash(treefmt --check)"
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}

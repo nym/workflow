@@ -1,0 +1,38 @@
+Trade offs + Considerations
+
+A running log of design decisions that cannot be recovered from the code alone.
+Write entries as you go; future agents and humans read this to understand *why*.
+
+Format per entry:
+  == Topic ==
+  - Short bullet points. What was considered, what was picked, what was left out.
+  - Include the reason a rejected option was rejected (not just "we chose X").
+
+
+== Governance layer ==
+
+- Picked a filesystem-based governance layer (docs + log.json + SCRATCHPAD.md) over a
+  tool-enforced one (e.g. a linter plugin or MCP server) because Opus 4.7 is explicitly
+  trained to read/write files across turns. A separate enforcement service adds moving
+  parts; docs in the repo are version-controlled and human-reviewable.
+- SPARC task states (spec → pseudocode → architecture → refinement → done) were picked
+  over simpler todo/doing/done because the adversarial-refinement gate is load-bearing —
+  collapsing it into "doing" hides whether a task has been challenged.
+
+
+== Model assignments ==
+
+- Orchestrator at Opus 4.7, implementer at Sonnet 4.6. The cost ratio justifies the
+  split: orchestrator decisions are rare and high-value; implementer calls are many and
+  cheap. A single-model setup would either overspend or underperform on planning.
+- Adversary explicitly at the *same* tier as the implementer. A weaker adversary
+  rubber-stamps. A stronger adversary finds issues the implementer had no path to
+  surface in the first place — unfair and noisy.
+
+
+== What was NOT adopted ==
+
+- No telemetry export to an external tracing service. log.json is enough for the
+  current scale; adding OpenTelemetry would be premature.
+- No automated CI enforcement of "no write without passing adversarial_check".
+  Planned, but not built — governance rules are currently honor-system + review.

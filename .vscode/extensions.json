@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "bbenoist.nix",
+    "mkhl.direnv",
+    "tamasfe.even-better-toml",
+    "streetsidesoftware.code-spell-checker",
+    "esbenp.prettier-vscode"
+  ]
+}

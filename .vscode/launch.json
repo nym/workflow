@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Agent: primary run (orchestrator + implementer)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_agent.js",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "AGENT_ROLE": "orchestrator",
+        "DEFAULT_EFFORT": "medium"
+      },
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Agent: adversarial check (isolated context)",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/run_adversary.js",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "AGENT_ROLE": "adversary",
+        "DEFAULT_EFFORT": "high",
+        "ORCHESTRATOR_MODEL": "${env:ADVERSARY_MODEL}"
+      },
+      "console": "integratedTerminal"
+    }
+  ]
+}
